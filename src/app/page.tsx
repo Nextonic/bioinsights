@@ -93,12 +93,12 @@ export default function HomePage() {
                     Ask
                   </button>
                 </form>
-                <button
+                {/*<button
                   type="button"
                   className="h-11 px-5 rounded-xl border border-slate-300 hover:bg-slate-50"
                 >
                   View examples
-                </button>
+                </button>*/}
               </div>
             </ div>
 
