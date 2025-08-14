@@ -11,11 +11,9 @@ export default function NavBar() {
 
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link href="/how-it-works">How it works</Link>
-          <Link href="/fda-use-cases">FDA use cases</Link>
+          <Link href="/use-cases">Use cases</Link>
           <Link href="/example-queries">Examples</Link>
-          <Link href="/resources">Resources</Link>
-          {/*<Link href="/faq">FAQ</Link>
-          <Link href="/contact">Contact</Link>*/}
+          <Link href="/datasets">Datasets</Link>
         </nav>
       </div>
     </div>

@@ -73,6 +73,7 @@ export default function HomePage() {
               and disease pathways—accelerating reviews, improving safety, and guiding policy.
             </ p>
 
+
             {/* Ask box */}
             < div {...fadeUp(0.18)} className="mt-10 rounded-2xl border bg-white/80">
               <div className="p-4 border-b">
@@ -253,7 +254,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ===== CTA ===== */}
+        {/* ===== CTA ===== 
         <section id="contact" className="py-16 md:py-24">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             < div
@@ -283,7 +284,7 @@ export default function HomePage() {
               </div>
             </ div>
           </div>
-        </section>
+        </section>*/}
       </main>
 
       <Footer />

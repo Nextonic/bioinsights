@@ -1,26 +1,78 @@
 @import "tailwindcss";
 
+/* ---------- Nextonic brand tokens ---------- */
 :root {
+  /* Brand */
+  --ns-primary: #0A66FF;
+  --ns-primary-dark: #0648B3;
+  --ns-accent: #00E0FF;
+
+  /* Neutrals */
+  --ns-ink: #0B1220;        /* primary text */
+  --ns-muted: #667085;      /* secondary text */
+  --ns-surface: #F8FAFC;    /* subtle backgrounds */
+  --ns-border: #E5E7EB;     /* borders / dividers */
+  --ns-ring: #93C5FD;       /* focus ring */
+
+  /* App defaults (light) */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: var(--ns-ink);
+  --border: var(--ns-border);
+  --surface: var(--ns-surface);
+  --ring: var(--ns-ring);
 }
 
+/* ---------- Tailwind v4 theme mapping ---------- */
 @theme inline {
+  /* App tokens you can use as Tailwind classes (bg-background, text-foreground, etc.) */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-ring: var(--ring);
+
+  /* Brand namespace (use like text-ns-primary, bg-ns-primary, etc.) */
+  --color-ns-primary: var(--ns-primary);
+  --color-ns-primary-dark: var(--ns-primary-dark);
+  --color-ns-accent: var(--ns-accent);
+  --color-ns-muted: var(--ns-muted);
+
+  /* Optional: map fonts if you’re loading Geist in layout.tsx */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* (Optional) radii & shadows for consistency */
+  --radius-xl: 12px;
+  --radius-2xl: 18px;
 }
 
+/* ---------- Dark mode ---------- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a0f1a;    /* deep navy */
+    --foreground: #e6e8ec;    /* light text */
+    --border: #1f2937;        /* darker divider */
+    --surface: #0f172a;       /* panels */
+    --ring: #60a5fa;          /* brighter focus ring */
+    --ns-muted: #94a3b8;      /* dimmer secondary text */
+    /* Brand hues stay the same for contrast */
   }
 }
 
+/* ---------- Base styles ---------- */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+}
+
+/* Helpful primitives */
+:root {
+  color-scheme: light dark;
+}
+* { border-color: var(--border); }
+a { color: inherit; text-decoration: none; }
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
 }
