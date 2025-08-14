@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "deploy:s3": "node scripts/deploy.mjs"
+    "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
