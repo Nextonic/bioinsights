@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import NavBar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import Link from "next/link";
 
 /** ---------- Types ---------- */
 type Category = "Drug" | "Chemical" | "Gene";
@@ -15,12 +16,14 @@ type Item = {
   tags: string[];
   sources: number; // how many citations/sources back this
   updatedAt: string; // ISO date
+  evidenceId: string;
 };
 
 /** ---------- Mock Data (replace with your API later) ---------- */
 const MOCK: Item[] = [
   {
     id: "1",
+    evidenceId: "ev-000124",
     name: "Aspirin",
     category: "Drug",
     description:
@@ -40,6 +43,7 @@ const MOCK: Item[] = [
     tags: ["antioxidant", "nfkb", "nutraceutical"],
     sources: 9,
     updatedAt: "2025-06-03",
+    evidenceId: "ev-000124",
   },
   {
     id: "3",
@@ -51,6 +55,7 @@ const MOCK: Item[] = [
     tags: ["oncology", "apoptosis", "dna-damage"],
     sources: 20,
     updatedAt: "2025-05-12",
+    evidenceId: "ev-000124",
   },
   {
     id: "4",
@@ -62,6 +67,7 @@ const MOCK: Item[] = [
     tags: ["neuro", "addiction", "metabolic"],
     sources: 7,
     updatedAt: "2025-03-28",
+    evidenceId: "ev-000124",
   },
   {
     id: "5",
@@ -73,6 +79,7 @@ const MOCK: Item[] = [
     tags: ["metabolic", "ampk", "endocrine"],
     sources: 15,
     updatedAt: "2025-04-18",
+    evidenceId: "ev-000124",
   },
   {
     id: "6",
@@ -84,6 +91,7 @@ const MOCK: Item[] = [
     tags: ["lipids", "statins", "cardio"],
     sources: 11,
     updatedAt: "2025-05-29",
+    evidenceId: "ev-000124",
   },
 ];
 
@@ -235,15 +243,21 @@ function ResultCard({ item }: { item: Item }) {
       )}
 
       <div className="mt-4 flex items-center gap-2">
-        <button className="h-9 px-3 rounded-xl bg-blue-600 text-white text-sm hover:bg-blue-700">
+      <Link
+  href={`/evidence?id=${item.evidenceId}`}
+  className="ns-btn ns-btn--pri" 
+><button className="h-9 px-3 rounded-xl bg-blue-600 text-white text-sm hover:bg-blue-700">
           Open evidence
         </button>
-        <button className="h-9 px-3 rounded-xl border text-sm hover:bg-slate-50">
+</Link>
+
+
+        {/*<button className="h-9 px-3 rounded-xl border text-sm hover:bg-slate-50">
           Save
         </button>
         <button className="h-9 px-3 rounded-xl border text-sm hover:bg-slate-50">
           Share
-        </button>
+        </button>*/}
       </div>
     </div>
   );

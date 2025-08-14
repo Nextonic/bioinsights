@@ -1,6 +1,5 @@
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
-import Link from "next/link";
 
 export default function HowItWorksPage() {
   const questions = [

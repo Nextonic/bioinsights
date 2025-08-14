@@ -39,13 +39,7 @@ export default function HomePage() {
       <main className="flex-1">
         {/* ===== HERO ===== */}
         <section className="relative overflow-hidden">
-          {/* background accents */}
-          <div className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-br from-blue-200 to-cyan-100 blur-3xl opacity-60" />
-            <div className="absolute -bottom-32 -right-24 h-96 w-96 rounded-full bg-gradient-to-tr from-indigo-200 to-purple-100 blur-3xl opacity-60" />
-          </div>
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
             <div
               {...fadeUp(0)}
               className="inline-flex items-center gap-2 rounded-full border bg-white/70 px-3 py-1 text-xs text-slate-500"
@@ -73,7 +67,6 @@ export default function HomePage() {
               and disease pathways—accelerating reviews, improving safety, and guiding policy.
             </ p>
 
-
             {/* Ask box */}
             < div {...fadeUp(0.18)} className="mt-10 rounded-2xl border bg-white/80">
               <div className="p-4 border-b">
@@ -94,26 +87,10 @@ export default function HomePage() {
                     Ask
                   </button>
                 </form>
-                {/*<button
-                  type="button"
-                  className="h-11 px-5 rounded-xl border border-slate-300 hover:bg-slate-50"
-                >
-                  View examples
-                </button>*/}
+          
               </div>
             </ div>
-
-            {/* “trust” bar */}
-            <div
-              {...fadeUp(0.24)}
-              className="mt-12 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-6 text-slate-500"
-            >
-              {["CDER", "CBER", "CFSAN", "CDRH", "OCS", "Policy"].map((x) => (
-                <div key={x} className="text-center text-xs md:text-sm opacity-80">
-                  {x}
-                </div>
-              ))}
-            </div>
+           
           </div>
         </section>
 
