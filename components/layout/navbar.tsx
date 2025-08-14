@@ -15,10 +15,10 @@ export default function NavBar() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          <a href="/#use-cases" className="text-slate-500 hover:text-slate-900">Use cases</a>
-          <a href="/#features" className="text-slate-500 hover:text-slate-900">Features</a>
-          <a href="/#evidence" className="text-slate-500 hover:text-slate-900">Evidence</a>
-          <a href="/#contact" className="text-slate-500 hover:text-slate-900">Contact</a>
+          <Link href="/#use-cases" className="text-slate-500 hover:text-slate-900">Use cases</Link>
+          <Link href="/#features" className="text-slate-500 hover:text-slate-900">Features</Link>
+          <Link href="/#evidence" className="text-slate-500 hover:text-slate-900">Evidence</Link>
+          <Link href="/#contact" className="text-slate-500 hover:text-slate-900">Contact</Link>
         </nav>
 
         {/*<div className="flex items-center gap-2">
