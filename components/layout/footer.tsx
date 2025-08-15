@@ -83,10 +83,10 @@ export default function Footer() {
 
               {/* social (inline SVGs) */}
               <div className="mt-3 flex items-center gap-3">
-                <IconLink href="#" label="linkedin">
+                {/*<IconLink href="#" label="linkedin">
                   <LinkedInIcon />
                 </IconLink>
-                {/*<IconLink href="#" label="github">
+                <IconLink href="#" label="github">
                   <GitHubIcon />
                 </IconLink>
                 <IconLink href="#" label="x">
@@ -153,7 +153,7 @@ function IconLink({ href, label, children }: { href: string; label: string; chil
   );
 }
 
-function Callout({ title, desc, color }: { title: string; desc: string; color: string }) {
+/* function Callout({ title, desc, color }: { title: string; desc: string; color: string }) {
   return (
     <div className="flex items-start gap-3">
       <span
@@ -167,13 +167,13 @@ function Callout({ title, desc, color }: { title: string; desc: string; color: s
       </div>
     </div>
   );
-}
+} */
 
 function Dot({ color }: { color: string }) {
   return <span className="inline-block h-2 w-2 rounded-full" style={{ background: color }} aria-hidden />;
 }
 
-/* Icons: inline SVG so no extra deps */
+/* Icons: inline SVG so no extra deps 
 function LinkedInIcon() {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
@@ -194,4 +194,4 @@ function XIcon() {
       <path d="M18.9 2H21l-6.5 7.4L22 22h-6.8l-5.3-6.7L3.9 22H2l7-8-6.5-8H9l5 6.4L18.9 2zM7.2 3.5H4.7l12 15h2.6l-12-15z" />
     </svg>
   );
-}
+}*/
