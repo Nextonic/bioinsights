@@ -1,145 +1,84 @@
-// src/app/evidence/page.tsx
 "use client";
+import React, { Suspense } from "react";
+import { DATASETS } from "@/data/datasets";
+import { ASSOCIATIONS, evidenceByIds, type Association } from "@/data/graph.generated";
 
-import { Suspense, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+export const dynamic = "force-dynamic";
 
-// layout
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
+function datasetName(id: string) {
+  return DATASETS.find((d) => d.id === id)?.name ?? id;
+}
 
-// viewer
-import EvidenceView, { EvidencePacket } from "./EvidenceView";
-
-/** Demo registry — replace with your data layer later */
-const REGISTRY: Record<string, EvidencePacket> = {
-  "ev-000124": {
-    id: "ev-000124",
-    subject: { id: "CHEMBL:25", label: "Acetylcysteine", type: "drug" },
-    relation: "treats",
-    object: { id: "MONDO:0005148", label: "COPD", type: "disease" },
-    confidence: 0.82,
-    timestamps: { ingested_at: "2025-08-01", updated_at: "2025-08-10" },
-    sources: [
-      {
-        id: "PMID:34567890",
-        label: "Clinical study",
-        url: "https://pubmed.ncbi.nlm.nih.gov/34567890",
-        date: "2024-11-03",
-        provenance: "literature",
-      },
-      { id: "CHEMBL:25→MONDO:0005148", label: "Graph edge", provenance: "curated-db" },
-    ],
-    notes:
-      "Signal consistent across two independent sources; consider phenotype stratification.",
-    version: "v2025.08",
-  },
-  "ev-000221": {
-    id: "ev-000221",
-    subject: { id: "PUBCHEM:5793", label: "Dexamethasone", type: "drug" },
-    relation: "decreases_activity",
-    object: { id: "HGNC:4193", label: "IL6", type: "gene" },
-    confidence: 0.9,
-    timestamps: { ingested_at: "2025-07-15", updated_at: "2025-08-09" },
-    sources: [
-      {
-        id: "PMID:32012345",
-        label: "In vitro assay",
-        url: "https://pubmed.ncbi.nlm.nih.gov/32012345",
-        date: "2023-05-12",
-        provenance: "literature",
-      },
-    ],
-    version: "v2025.08",
-  },
-};
-
-function EvidenceContent() {
-  const params = useSearchParams(); // CSR dynamic API → must be inside <Suspense>
-  const id = params.get("id") ?? "";
-  const packet = useMemo(() => (id ? REGISTRY[id] : undefined), [id]);
-
+export default function Page() {
   return (
-    <>
-      {/* Hero header strip */}
-      <section
-        className="border-b"
-        style={{ borderColor: "var(--border)" }}
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-xs font-semibold tracking-wide uppercase"
-               style={{ color: "var(--ns-muted, #667085)" }}>
-            evidence
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold"
-              style={{ color: "var(--foreground)" }}>
-            evidence packet
-          </h1>
-          <p className="mt-2 text-sm"
-             style={{ color: "color-mix(in oklab, var(--foreground) 65%, transparent)" }}>
-            Open, auditable relationship details with provenance and confidence scoring.
-          </p>
-        </div>
-      </section>
-
-      {/* Body */}
-      <main>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-          {!id || !packet ? (
-            <div className="rounded-2xl border p-6"
-                 style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
-              <div className="text-base font-medium" style={{ color: "var(--foreground)" }}>
-                no evidence found
-              </div>
-              <p className="mt-2 text-sm"
-                 style={{ color: "color-mix(in oklab, var(--foreground) 70%, transparent)" }}>
-                Open from the results list, or pass an id like:
-              </p>
-              <pre className="mt-4 rounded-xl border p-4 text-sm overflow-auto"
-                   style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
-{`/evidence?id=ev-000124`}
-              </pre>
-              <div className="mt-4">
-                <Link
-                  href="/results"
-                  className="inline-flex items-center h-10 px-4 rounded-xl text-sm font-medium text-white"
-                  style={{ background: "var(--ns-primary, #0A66FF)" }}
-                >
-                  back to results
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <EvidenceView packet={packet} />
-          )}
-        </div>
-      </main>
-    </>
+    <Suspense fallback={<div className="max-w-4xl mx-auto p-6 text-sm text-slate-600">Loading evidence…</div>}>
+      <EvidenceClient />
+    </Suspense>
   );
 }
 
-export default function EvidencePage() {
-  return (
-    <div className="min-h-screen" style={{ background: "var(--background)", color: "var(--foreground)" }}>
-      <Navbar />
+/* =======================
+   Client component inside the same file
+   ======================= */
 
-      {/* Suspense wrapper required for useSearchParams */}
-      <Suspense
-        fallback={
-          <section className="border-b" style={{ borderColor: "var(--border)" }}>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-              <div style={{ color: "color-mix(in oklab, var(--foreground) 80%, transparent)" }}>
-                loading evidence…
+import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+
+function EvidenceClient() {
+  const sp = useSearchParams();
+  const assocId = sp.get("id") ?? "";
+
+  const assoc: Association | undefined = useMemo(
+    () => ASSOCIATIONS.find((a) => a.id === assocId),
+    [assocId]
+  );
+  const evidence = useMemo(() => (assoc ? evidenceByIds(assoc.evidenceIds) : []), [assoc]);
+
+  if (!assoc) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <h1 className="text-2xl font-semibold">Evidence</h1>
+        <p className="text-sm text-slate-600 mt-2">
+          No association found for id <span className="font-mono">{assocId || "(none)"}</span>.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <header className="space-y-1">
+        <h1 className="text-2xl font-semibold">Evidence</h1>
+        <p className="text-sm text-gray-600">
+          Association:{" "}
+          <span className="font-medium">
+            {assoc.subject.name} {assoc.predicate.replaceAll("_", " ")} {assoc.object.name}
+          </span>
+        </p>
+        <p className="text-xs text-slate-500">
+          {datasetName(assoc.subject.datasetId)} → {datasetName(assoc.object.datasetId)}
+        </p>
+      </header>
+
+      <div className="space-y-4">
+        {evidence.map((e) => (
+          <div key={e.id} className="border rounded-xl p-4 shadow-sm">
+            <div className="flex justify-between items-start">
+              <div>
+                <h2 className="text-lg font-semibold">{datasetName(e.datasetId)}</h2>
+                <p className="text-xs text-slate-500">
+                  Score: {e.score.toFixed(2)} • Source:{" "}
+                  <a href={e.url} target="_blank" rel="noreferrer" className="underline">
+                    {e.title}
+                  </a>
+                </p>
               </div>
             </div>
-          </section>
-        }
-      >
-        <EvidenceContent />
-      </Suspense>
-
-      <Footer />
+            <p className="mt-2 text-sm text-gray-700">{e.snippet}</p>
+          </div>
+        ))}
+        {evidence.length === 0 && <div className="text-sm text-slate-600">No evidence items attached.</div>}
+      </div>
     </div>
   );
 }
