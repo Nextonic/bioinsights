@@ -1,16 +1,18 @@
-import path from "node:path";
+import path from 'node:path';
+import url from 'node:url';
 
 export type GraphNode = { id: string; label?: string; type?: string; [k: string]: any };
 export type GraphEdge = { source: string; target: string; type?: string; [k: string]: any };
 export type GraphData = { nodes: GraphNode[]; edges: GraphEdge[] };
 
 export async function loadGraph(): Promise<GraphData> {
-  const p = process.env.GRAPH_PATH!;
-  const mod = await import(path.resolve(p));
+  const p = path.resolve(process.env.GRAPH_PATH!);
+  const fileUrl = url.pathToFileURL(p).href;
+  const mod = await import(fileUrl);
   const nodes = (mod.nodes ?? mod.default?.nodes ?? []) as GraphNode[];
   const edges = (mod.edges ?? mod.default?.edges ?? []) as GraphEdge[];
   if (!Array.isArray(nodes) || !Array.isArray(edges)) {
-    throw new Error("graph.generated.ts must export arrays `nodes` and `edges`.");
+    throw new Error('graph.generated.ts must export arrays `nodes` and `edges`.');
   }
   return { nodes, edges };
 }
@@ -25,8 +27,8 @@ export function stats(g: GraphData) {
   return {
     nodeCount: g.nodes.length,
     edgeCount: g.edges.length,
-    nodeTypes: freq(g.nodes.map(n => n.type ?? "unknown")),
-    edgeTypes: freq(g.edges.map(e => e.type ?? "unknown"))
+    nodeTypes: freq(g.nodes.map(n => n.type ?? 'unknown')),
+    edgeTypes: freq(g.edges.map(e => e.type ?? 'unknown'))
   };
 }
 
@@ -42,21 +44,19 @@ export function buildAdj(g: GraphData) {
   return { out, inn };
 }
 
-export function getNeighbors(g: GraphData, nodeId: string, depth = 1, direction: "out"|"in"|"both" = "both") {
+export function getNeighbors(g: GraphData, nodeId: string, depth = 1, direction: 'out' | 'in' | 'both' = 'both') {
   const { out, inn } = buildAdj(g);
   const seen = new Set<string>([nodeId]);
   let frontier = new Set<string>([nodeId]);
-
   for (let d = 0; d < depth; d++) {
     const next = new Set<string>();
     for (const n of frontier) {
-      if (direction !== "in")  for (const t of out.get(n) ?? []) if (!seen.has(t)) { seen.add(t); next.add(t); }
-      if (direction !== "out") for (const s of inn.get(n) ?? []) if (!seen.has(s)) { seen.add(s); next.add(s); }
+      if (direction !== 'in') for (const t of out.get(n) ?? []) if (!seen.has(t)) { seen.add(t); next.add(t); }
+      if (direction !== 'out') for (const s of inn.get(n) ?? []) if (!seen.has(s)) { seen.add(s); next.add(s); }
     }
     if (!next.size) break;
     frontier = next;
   }
-
   const keep = new Set(seen);
   const nodes = g.nodes.filter(n => keep.has(n.id));
   const edges = g.edges.filter(e => keep.has(e.source) && keep.has(e.target));
@@ -68,7 +68,6 @@ export function shortestPath(g: GraphData, sourceId: string, targetId: string, m
   const q: string[] = [sourceId];
   const prev = new Map<string, string | null>([[sourceId, null]]);
   let depth = 0;
-
   while (q.length && depth <= maxDepth) {
     const size = q.length;
     for (let i = 0; i < size; i++) {

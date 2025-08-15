@@ -7,11 +7,6 @@ services:
       - "8080:8080"
     env_file:
       - .env
-    environment:
-      # Ensure the container can see your repo root and data files
-      - PROJECT_ROOT=/app
-      - DATASETS_PATH=/app/src/data/datasets.ts
-      - GRAPH_PATH=/app/src/data/graph.generated.ts
     volumes:
-      - ..:/app:ro        # mount entire repo read-only
-    command: npm run dev  # hot reload via tsx
+      - ..:/app:ro
+    command: npm run dev
