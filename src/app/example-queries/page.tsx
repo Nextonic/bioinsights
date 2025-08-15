@@ -1,6 +1,5 @@
 import Link from "next/link";
-import NavBar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
+
 
 export default function ExampleQueriesPage() {
   const queries = [
@@ -13,7 +12,7 @@ export default function ExampleQueriesPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col">
-      <NavBar />
+
       <main className="flex-1">
         <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h1 className="text-3xl font-bold">Example Queries</h1>
@@ -32,7 +31,7 @@ export default function ExampleQueriesPage() {
           </div>
         </section>
       </main>
-      <Footer />
+
     </div>
   );
 }

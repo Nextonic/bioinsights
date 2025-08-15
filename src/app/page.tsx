@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import NavBar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
+
 import {
   Beaker,
   ActivitySquare,
@@ -34,7 +33,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col">
-      <NavBar />
+      
 
       <main className="flex-1">
         {/* ===== HERO ===== */}
@@ -264,7 +263,7 @@ export default function HomePage() {
         </section>*/}
       </main>
 
-      <Footer />
+
     </div>
   );
 }

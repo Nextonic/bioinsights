@@ -1,5 +1,3 @@
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
 
 export default function HowItWorksPage() {
   const questions = [
@@ -55,7 +53,7 @@ export default function HowItWorksPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col">
-      <Navbar />
+
 
       <main className="flex-1">
         {/* Hero */}
@@ -279,7 +277,7 @@ export default function HowItWorksPage() {
         </section>
       </main>
 
-      <Footer />
+      
     </div>
   );
 }

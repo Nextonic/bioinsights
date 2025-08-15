@@ -141,7 +141,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   );
 }
 
-function IconLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+/*function IconLink({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   return (
     <a
       href={href}
@@ -151,7 +151,7 @@ function IconLink({ href, label, children }: { href: string; label: string; chil
       {children}
     </a>
   );
-}
+}*/
 
 /* function Callout({ title, desc, color }: { title: string; desc: string; color: string }) {
   return (
