@@ -15,6 +15,10 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import HeroEntitySearch from "@/components/HeroEntitySearch";
+
+
+
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
   animate: { opacity: 1, y: 0 },
@@ -68,6 +72,22 @@ export default function HomePage() {
 
             {/* Ask box */}
             < div {...fadeUp(0.18)} className="mt-10 rounded-2xl border bg-white/80">
+ 
+            {/*// ...inside your page component render:*/}
+            <section className="max-w-3xl mx-auto px-4 py-10 space-y-4">
+              <h1 className="text-3xl font-semibold">Bioinsights</h1>
+              <p className="text-slate-600">
+                Search across genes, pathways, diseases, drugs, and adverse events.
+              </p>
+
+              <div className="bg-white border rounded-xl p-4 shadow-sm">
+                <HeroEntitySearch
+                  initialType="gene"
+                  destination="/results" // adjust if needed
+                />
+              </div>
+            </section>
+
               <div className="p-4 border-b">
                 <h2 className="text-base md:text-lg font-semibold">Try a question</h2>
               </div>
